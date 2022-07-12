@@ -6,16 +6,16 @@ public class ArraysTasksImpl implements ArraysTasks {
 
     public static void main(String[] args) {
         ArraysTasksImpl tasks = new ArraysTasksImpl();
-        System.out.println(Arrays.toString(tasks.reverse(new int[]{1, 2, 3, 4, 5})));
-        System.out.println(Arrays.toString(tasks.mergeArrays(new int[]{1, 2, 3, 4, 5}, new int[]{34, 8, 12, 17})));
-        System.out.println(Arrays.toString(tasks.findMax3InArray(new int[]{234, 4})));
-        System.out.println(tasks.findLongestIncreasingContinuesSubsequence(new int[]{50, 3, 10, 15, 22, 90, 20, 71}));
-        System.out.println(tasks.sumOfAllUniqueElements(new int[]{7,7,7,7}));
-        System.out.println(Arrays.toString(tasks.moveZeroes(new int[]{345,0,12,12,0,78,0})));
-        System.out.println(tasks.findFinalValue(new int[]{2,7,9}, 4));
-        System.out.println(tasks.longestCommonPrefix(new String[]{"dog","racecar","car"}));
-        System.out.println(tasks.missingNumber(new int[]{0,1,3}));
-        System.out.println(tasks.containsDuplicate(new int[]{10,2,1,45,67,32,11,109,209,2,1,10}));
+//        System.out.println(Arrays.toString(tasks.reverse(new int[]{1, 2, 3, 4, 5})));
+//        System.out.println(Arrays.toString(tasks.mergeArrays(new int[0], new int[]{27, 11})));
+//        System.out.println(Arrays.toString(tasks.findMax3InArray(new int[]{234, 4})));
+//        System.out.println(tasks.findLongestIncreasingContinuesSubsequence(new int[]{Integer.MAX_VALUE, Integer.MIN_VALUE}));
+//        System.out.println(tasks.sumOfAllUniqueElements(new int[]{7,7,7,7}));
+//        System.out.println(Arrays.toString(tasks.moveZeroes(new int[]{345,0,12,12,0,78,0})));
+//        System.out.println(tasks.findFinalValue(new int[]{2,7,9}, 4));
+        System.out.println(tasks.longestCommonPrefix(new String[]{"apple", "ap", "app"}));
+//        System.out.println(tasks.missingNumber(new int[]{0,1,3}));
+//        System.out.println(tasks.containsDuplicate(new int[]{10,2,1,45,67,32,11,109,209,2,1,10}));
     }
 
     @Override
@@ -32,12 +32,25 @@ public class ArraysTasksImpl implements ArraysTasks {
     @Override
     public int[] mergeArrays(int[] array1, int[] array2) {
         int[] array3 = new int[array1.length + array2.length];
-        for (int i = 0; i < array1.length; i++) {
-            for (int j = 0; j < array2.length; j++) {
-                array3[i] = array1[i];
-                array3[j + array1.length] = array2[j];
+        if (array1.length != 0 && array2.length != 0) {
+            for (int i = 0; i < array1.length; i++) {
+                for (int j = 0; j < array2.length; j++) {
+                    array3[i] = array1[i];
+                    array3[j + array1.length] = array2[j];
+                }
             }
         }
+        else if (array1.length == 0){
+            for (int j = 0; j < array2.length; j++) {
+                array3[j] = array2[j];
+            }
+        }
+        else{
+            for (int j = 0; j < array1.length; j++) {
+                array3[j] = array1[j];
+            }
+        }
+
         return array3;
     }
 
@@ -71,13 +84,13 @@ public class ArraysTasksImpl implements ArraysTasks {
         int max = 0;
         int k = 0;
         int[] longArr = new int[array.length];
-        for (int i = 0; i < array.length - 1; i++) {
-            if (array[i] < array[i + 1]){
+        for (int i = 1; i < array.length; i++) {
+            if (array[i - 1] < array[i]){
                 count++;
                 longArr[k] = count;
                 k++;
             }
-            else if (array[i] == array[i + 1]) {
+            else if (array[i - 1] == array[i] || array[i - 1] > array[i]) {
                 count = 1;
                 longArr[k] = count;
                 k++;
@@ -97,7 +110,7 @@ public class ArraysTasksImpl implements ArraysTasks {
     @Override
     public int sumOfAllUniqueElements(int[] array) {
         int sum = 0;
-        for (int i = 0; i < array.length - 1; i++) {
+        for (int i = 0; i < array.length; i++) {
             for (int k = i + 1; k < array.length; k++) {
                 if (array[i] == array[k]) {
                     array[k] = 0;
@@ -138,19 +151,36 @@ public class ArraysTasksImpl implements ArraysTasks {
 
     @Override
     public String longestCommonPrefix(String[] words) {
-        String s = "";
-        int k = 0;
-        for (int i = 0; i < words.length; i++) {
-            for (int j = i + 1; j < words.length; j++) {
-                if (words[i].charAt(k) == words[j].charAt(k)){
-                    if (words[i].charAt(k) != words[words.length - 1].charAt(k))
-                        break;
-                   s += words[i].charAt(k);
-               }
-               k++;
-               }
+        String prefix = "";
+        boolean b = false;
+        int length = 10;
+        for (String s : words) {
+            if (s.length() < length){
+                length = s.length();
             }
-        return s;
+//            if (length > words.length){
+//                length = words.length;
+//            }
+        }
+        for (int i = 0; i < words.length - 1; i++) {
+            for (int j = 0; j < length; j++) {
+                if (words[i].charAt(j) == words[i + 1].charAt(j)){
+                    b = true;
+               }
+                if (b) {
+                    prefix += words[i].charAt(j);
+                    b = false;
+                }
+                else {
+                    return prefix;
+                }
+
+
+            }
+
+
+        }
+        return prefix;
     }
 
     @Override
