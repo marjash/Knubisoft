@@ -151,36 +151,34 @@ public class ArraysTasksImpl implements ArraysTasks {
 
     @Override
     public String longestCommonPrefix(String[] words) {
-        String prefix = "";
+        String s = "";
+        int min = 10;
+        int k = 0;
         boolean b = false;
-        int length = 10;
-        for (String s : words) {
-            if (s.length() < length){
-                length = s.length();
+        for (String str : words) {
+            if (min > str.length()){
+                min = str.length();
             }
-//            if (length > words.length){
-//                length = words.length;
-//            }
         }
-        for (int i = 0; i < words.length - 1; i++) {
-            for (int j = 0; j < length; j++) {
-                if (words[i].charAt(j) == words[i + 1].charAt(j)){
+        if (words.length == 1) {
+            return words[0];
+        }
+        for (int i = 0; i < min; i++) {
+            for (int j = 0; j < words.length-1; j++) {
+                if (words[j].charAt(i) == words[j + 1].charAt(i)) {
                     b = true;
-               }
-                if (b) {
-                    prefix += words[i].charAt(j);
-                    b = false;
+                    k = j;
                 }
                 else {
-                    return prefix;
+                    return s;
                 }
-
-
             }
-
-
+            if (b) {
+                b = false;
+                s += words[k].charAt(i);
+            }
         }
-        return prefix;
+        return s;
     }
 
     @Override
