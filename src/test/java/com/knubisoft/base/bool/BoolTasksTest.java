@@ -82,6 +82,33 @@ public class BoolTasksTest {
     }
 
     @Test
+    public void andComplexFunctionSuccessful(){
+        assertTrue(instance.andComplexFunction(4, 4.4, 5));
+        assertTrue(instance.andComplexFunction(4, 4.0, 5));
+    }
+
+    @Test
+    public void andComplexFunctionFail(){
+        assertFalse(instance.andComplexFunction(4, 4.5, 5));
+        assertFalse(instance.andComplexFunction(5, 4.3, 6));
+        assertFalse(instance.andComplexFunction(2, 4.5, 3));
+    }
+
+    @Test
+    public void orComplexFunctionSuccessful(){
+        assertTrue(instance.orComplexFunction(5, 5.3, 5, 6));
+        assertTrue(instance.orComplexFunction(5, 5.5, 5, 6));
+    }
+
+    @Test
+    public void orComplexFunctionFail(){
+        assertFalse(instance.orComplexFunction(5, 5.5, 6, 6));
+        assertFalse(instance.orComplexFunction(5, 5.4, 6, 4));
+        assertFalse(instance.orComplexFunction(5, 5.4, 6, 8));
+
+    }
+
+    @Test
     public void isSameSizeArraySuccessful() {
         assertTrue(instance.isSameSizeArray(new Object[100], new Object[100]));
         assertTrue(instance.isSameSizeArray(new Object[30], new Object[30]));

@@ -13,7 +13,7 @@ public class ArraysTasksImpl implements ArraysTasks {
 //        System.out.println(tasks.sumOfAllUniqueElements(new int[]{7,7,7,7}));
 //        System.out.println(Arrays.toString(tasks.moveZeroes(new int[]{345,0,12,12,0,78,0})));
 //        System.out.println(tasks.findFinalValue(new int[]{2,7,9}, 4));
-        System.out.println(tasks.longestCommonPrefix(new String[]{"apple", "ap", "app"}));
+//        System.out.println(tasks.longestCommonPrefix(new String[]{"apple", "ap", "app"}));
 //        System.out.println(tasks.missingNumber(new int[]{0,1,3}));
 //        System.out.println(tasks.containsDuplicate(new int[]{10,2,1,45,67,32,11,109,209,2,1,10}));
     }
