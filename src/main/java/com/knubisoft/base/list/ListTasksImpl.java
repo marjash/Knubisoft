@@ -7,12 +7,28 @@ import java.util.List;
 public class ListTasksImpl implements ListTasks {
     @Override
     public List<String> addElements(String... elements) {
-        return null;
+        List<String> list = new LinkedList<>();
+            if (elements != null) {
+                for (String s : elements) {
+                    list.add(s);
+                }
+                return list;
+            }
+            return null;
     }
 
     @Override
     public List<String> getElementsByIndexes(List<String> elements, int[] indexes) {
-        return null;
+        if (indexes == null) {
+            throw new IllegalArgumentException("value can't be null");
+        }
+            for (int i : indexes) {
+                 if (i < 0 || i > elements.size()){
+                     throw new IllegalArgumentException("value can't be < 0 or > elements size");
+                }
+                elements.add(elements.get(i));
+            }
+        return elements;
     }
 
     @Override
