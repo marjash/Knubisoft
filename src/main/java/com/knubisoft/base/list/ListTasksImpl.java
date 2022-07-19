@@ -1,10 +1,19 @@
 package com.knubisoft.base.list;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ListTasksImpl implements ListTasks {
+
+    public static void main(String[] args) {
+        ListTasksImpl listTasks = new ListTasksImpl();
+        ArrayList<Integer> integers1 = new ArrayList<>(Arrays.asList(123, Integer.MAX_VALUE, 0));
+        ArrayList<Integer> integers2 = new ArrayList<>(Arrays.asList(1253435, 12413, -1243254));
+        ArrayList<Integer> integers3 = new ArrayList<>(Arrays.asList(Integer.MIN_VALUE, 12413, -1243254));
+        listTasks.findMaxValue(integers1, integers2, integers3);
+    }
     @Override
     public List<String> addElements(String... elements) {
         List<String> list = new LinkedList<>();
@@ -33,37 +42,97 @@ public class ListTasksImpl implements ListTasks {
 
     @Override
     public ArrayList<String> addElementsByIndexes(ArrayList<String> elements, int[] indexes) {
-        return null;
+        if (indexes == null) {
+            throw new IllegalArgumentException("value can't be null");
+        }
+        for (int i : indexes) {
+            if (i < 0 || i > elements.size()){
+                throw new IllegalArgumentException("value can't be < 0 or > elements size");
+            }
+            elements.add(i, elements.get(i));
+        }
+        return elements;
     }
 
     @Override
     public LinkedList<String> setElementsByIndexes(LinkedList<String> elements, int[] indexes) {
-        return null;
+        if (indexes == null) {
+            throw new IllegalArgumentException("value can't be null");
+        }
+        for (int i : indexes) {
+            if (i < 0 || i > elements.size()){
+                throw new IllegalArgumentException("value can't be < 0 or > elements size");
+            }
+            elements.set(i, elements.get(i));
+        }
+        return elements;
     }
 
     @Override
     public int getListSize(List<String> list) {
-        return -1;
+        if (list != null)
+            return list.size();
+        return 0;
     }
 
     @Override
     public List<Long> merge(List<Integer> first, List<Long> second, List<String> third) {
-        return null;
+        List<Long> numbers = new ArrayList<>();
+        for (int i : first) {
+            numbers.add((long) i);
+        }
+        numbers.addAll(second);
+        for (String s :third) {
+            if (s == null){
+                throw new NullPointerException("value can't be null");
+            }
+            numbers.add(Long.parseLong(s));
+        }
+        return numbers;
     }
 
     @Override
     public int findMaxValue(List<Integer> first, List<Integer> second, List<Integer> third) {
-        return -1;
+        int max = 0;
+        first.addAll(second);
+        first.addAll(third);
+        for (int i : first) {
+            if (max < i) {
+                max = i;
+            }
+        }
+        return max;
     }
 
     @Override
     public int findMinValue(List<Integer> first, List<Integer> second, List<Integer> third) {
-        return -1;
+        int min = first.get(0);
+        first.addAll(second);
+        first.addAll(third);
+        for (int i : first) {
+            if (min > i) {
+                min = i;
+            }
+        }
+        return min;
     }
 
     @Override
     public int multiplyMax2Elements(List<Integer> first, List<Integer> second, List<Integer> third) {
-        return -1;
+        int[] maxValue = new int[2];
+        int index = 0;
+        first.addAll(second);
+        first.addAll(third);
+        for (int i = 0; i < maxValue.length; i++) {
+            for (int j = 0; j < first.size(); j++) {
+                if (first.get(j) > maxValue[i]) {
+                    maxValue[i] = first.get(j);
+                    index = j;
+                }
+            }
+            first.remove(first.get(index));
+        }
+        return maxValue[0] * maxValue[1];
     }
 
     @Override
