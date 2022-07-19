@@ -1,9 +1,7 @@
 package com.knubisoft.base.list;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ListTasksImpl implements ListTasks {
 
@@ -136,13 +134,28 @@ public class ListTasksImpl implements ListTasks {
     }
 
     @Override
-    public List<String> removeNulls(List<String> list) {
-        return null;
+    public List<String> removeNulls(List<String> list){
+        for (String str : list) {
+            if (str.equals(null)){
+                list.remove(list.contains(null));
+            }
+        }
+        return list;
     }
 
     @Override
     public List<Integer> flatMapWithoutNulls(List<List<Integer>> list) {
-        return null;
+//        list.removeIf(Objects::isNull);
+        if (list == null) {
+            throw new NoSuchElementException("NoSuchElementException");
+        }
+        List<Integer> integerList = new ArrayList<>();
+        for (List l : list) {
+            integerList.addAll((Collection<? extends Integer>) l.stream()
+                    .filter(x -> x != null)
+                    .collect(Collectors.toList()));
+        }
+        return integerList;
     }
 
     @Override
