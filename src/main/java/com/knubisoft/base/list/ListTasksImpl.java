@@ -135,12 +135,14 @@ public class ListTasksImpl implements ListTasks {
 
     @Override
     public List<String> removeNulls(List<String> list){
-        for (String str : list) {
-            if (str.equals(null)){
-                list.remove(list.contains(null));
-            }
+    ListIterator<String> iterator = list.listIterator();
+    while (iterator.hasNext()){
+        if (iterator.next() == null){
+            iterator.remove();
         }
-        return list;
+    }
+//        list.removeIf(Objects::isNull);
+    return list;
     }
 
     @Override
@@ -160,21 +162,43 @@ public class ListTasksImpl implements ListTasks {
 
     @Override
     public List<Integer> cloneIds(List<Integer> originalIds) {
-        return null;
+        if (originalIds == null){
+            throw new NoSuchElementException("NoSuchElementException");
+        }
+        originalIds.removeIf(Objects::isNull);
+        List<Integer> list = new ArrayList<>(originalIds);
+        return list;
     }
 
     @Override
     public List<String> shuffle(List<String> originalStrings) {
-        return null;
+        Collections.shuffle(originalStrings);
+        return originalStrings;
     }
 
     @Override
     public String getLastElement(LinkedList<String> list) {
-        return null;
+        if (list == null){
+            throw new NoSuchElementException("NoSuchElementException");
+        }
+        if (list.size() == 0){
+            return "";
+        }
+        return list.getLast();
     }
 
     @Override
     public List<String> compareElements(LinkedList<String> originalCollection, LinkedList<String> additionalCollection) {
-        return null;
+        if (originalCollection == null || additionalCollection == null)
+            throw new IllegalArgumentException("IllegalArgumentException");
+        List<String> newCollection = new LinkedList<>();
+        for (String str : originalCollection) {
+            for (String str2 : additionalCollection) {
+                if (str.equals(str2)){
+                    newCollection.add(str);
+                }
+            }
+        }
+        return newCollection;
     }
 }
