@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public class ListTasksImpl implements ListTasks {
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         ListTasksImpl listTasks = new ListTasksImpl();
         ArrayList<Integer> integers1 = new ArrayList<>(Arrays.asList(123, Integer.MAX_VALUE, 0));
         ArrayList<Integer> integers2 = new ArrayList<>(Arrays.asList(1253435, 12413, -1243254));
