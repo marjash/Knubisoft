@@ -1,11 +1,15 @@
 package com.knubisoft.base.numbers;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class NumbersTasksImpl implements NumbersTasks {
-    public static void main(String... args) {
-        NumbersTasksImpl numbersTasks = new NumbersTasksImpl();
-        numbersTasks.swapTwoNumbersWithoutUsingTemporaryVariable(2, 3);
+    public static void main(String[] args) {
+
+//        System.out.println(numbersTasks);
+//        numbersTasks.swapTwoNumbersWithoutUsingTemporaryVariable(2, 3);
     }
 
     @Override
@@ -35,12 +39,38 @@ public class NumbersTasksImpl implements NumbersTasks {
 
     @Override
     public int addDigits(int number) {
-        return -1;
+        String num = String.valueOf(number);
+        char[] c = num.toCharArray();
+        int n = 0;
+        boolean b = true;
+        while (b) {
+            for (char value : c) {
+                n += Character.getNumericValue(value);
+            }
+                if (n > 9) {
+                    num = String.valueOf(n);
+                    c = num.toCharArray();
+                    n = 0;
+                }
+                else {
+                    b = false;
+                }
+            }
+        return n;
     }
 
     @Override
     public boolean isHarshadNumber(int number) {
-        return false;
+        if (number == 0) {
+            return false;
+        }
+        String num = String.valueOf(number);
+        char[] c = num.toCharArray();
+        int n = 0;
+        for (char value : c) {
+            n += Character.getNumericValue(value);
+        }
+        return number % n == 0;
     }
 
     @Override
@@ -67,4 +97,5 @@ public class NumbersTasksImpl implements NumbersTasks {
     public boolean isAutomorphic(int number) {
         return false;
     }
+
 }
