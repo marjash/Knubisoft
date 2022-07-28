@@ -1,5 +1,6 @@
 package com.knubisoft.base.pattern;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,37 +40,54 @@ public class PatternTasksImpl implements PatternTasks {
 
     @Override
     public String matchIpAddress(String text) {
-        return null;
+        if (text == null || text.equals("") || text.equals(" "))
+            throw new IllegalArgumentException();
+        return text.replaceAll("\\b0+", "");
     }
 
     @Override
     public String matchVowels(String text) {
-        return null;
+        if (text == null || text.equals("") || text.equals(" "))
+            throw new IllegalArgumentException();
+        return text.replaceAll("[aAeEiIoOuU]", "");
     }
 
     @Override
     public boolean validatePIN(String text) {
-        return false;
+        if (text == null || text.equals("") || text.equals(" "))
+            throw new IllegalArgumentException();
+        Pattern pattern = Pattern.compile("^\\d{4}$|^\\d{6}$|^\\d{8}$");
+        return pattern.matcher(text).find();
     }
 
     @Override
     public String divideDigit(int digit) {
-        return null;
+        String text = String.valueOf(digit);
+        return text.replaceAll("0{3}$", "#000");
     }
 
     @Override
     public String removeAllNonAlphanumericCharacters(String text) {
-        return null;
+        if (text == null || text.equals("") || text.equals(" "))
+            throw new IllegalArgumentException();
+        return text.replaceAll("\\W", "");
     }
 
     @Override
     public boolean validatePhoneNumber(String text) {
-        return false;
+        if (text == null || text.equals("") || text.equals(" "))
+            throw new IllegalArgumentException();
+        Pattern pattern = Pattern.compile("(\\(([1-3]{3})\\)|([1-3]{3}))([-]([4-6]{3})[-]|([4-6]{3}))([-]?)([7890]{4}$)");
+        return pattern.matcher(text).find();
     }
 
     @Override
     public String getLastVowelsByConstraint(String text, int n) {
-        return null;
+        if (text == null || text.equals("") || text.equals(" "))
+            throw new IllegalArgumentException();
+        String str = text.replaceAll("[^aAeEiIoOuU]", "");
+        str = str.substring(str.length() - n);
+        return str;
     }
 
     @Override
