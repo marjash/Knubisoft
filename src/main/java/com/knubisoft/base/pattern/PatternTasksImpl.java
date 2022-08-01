@@ -1,6 +1,9 @@
 package com.knubisoft.base.pattern;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -83,7 +86,7 @@ public class PatternTasksImpl implements PatternTasks {
 
     @Override
     public String getLastVowelsByConstraint(String text, int n) {
-        if (text == null || text.equals("") || text.equals(" "))
+        if (text == null || text.equals("") || text.equals(" ") || n == 0)
             throw new IllegalArgumentException();
         String str = text.replaceAll("[^aAeEiIoOuU]", "");
         str = str.substring(str.length() - n);
@@ -92,11 +95,22 @@ public class PatternTasksImpl implements PatternTasks {
 
     @Override
     public boolean isMathematicalExpression(String text) {
-        return false;
+        if (text == null || text.equals("") || text.equals(" "))
+            throw new IllegalArgumentException();
+        Pattern pattern = Pattern.compile("^[0-9]|([0-9][-+/*][0-9]*$)");
+        return pattern.matcher(text).find();
     }
 
     @Override
     public String insertDash(String text) {
-        return null;
+        if (text == null || text.equals("") || text.equals(" "))
+            throw new IllegalArgumentException();
+        char[] c = text.toCharArray();
+        for (int i = 0; i < c.length; i++) {
+            if (Character.isUpperCase(c[i])){
+                text = text.replaceAll(String.valueOf(c[i]), c[i] + "-");
+            }
+        }
+        return text;
     }
 }
