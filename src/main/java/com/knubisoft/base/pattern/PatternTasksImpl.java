@@ -97,7 +97,7 @@ public class PatternTasksImpl implements PatternTasks {
     public boolean isMathematicalExpression(String text) {
         if (text == null || text.equals("") || text.equals(" "))
             throw new IllegalArgumentException();
-        Pattern pattern = Pattern.compile("^[0-9]|([0-9][-+/*][0-9]*$)");
+        Pattern pattern = Pattern.compile("^([0-9]+\\s[-+/*]\\s[0-9]+$)|^[0-9]+$");
         return pattern.matcher(text).find();
     }
 
