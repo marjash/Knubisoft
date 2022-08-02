@@ -2,20 +2,31 @@ package com.knubisoft.base.queue;
 
 import com.knubisoft.base.queue.car.Car;
 
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class QueueTasksImpl implements QueueTasks {
 
     @Override
     public Queue<Integer> reverseQueueUsingRecursion(Queue<Integer> queue) {
-        return null;
+        if (queue.isEmpty())
+            return queue;
+        int num = queue.poll();
+        queue = reverseQueueUsingRecursion(queue);
+        queue.add(num);
+        return queue;
     }
 
     @Override
     public Queue<Integer> reverseFirstKElementsOfQueue(Queue<Integer> queue, int k) {
-        return null;
+        List<Integer> list = new LinkedList<>();
+        while (k > 0){
+            list.add(0, queue.poll());
+            k--;
+        }
+        list.addAll(queue);
+        queue = (Queue<Integer>) list;
+        return queue;
     }
 
     @Override
@@ -32,5 +43,4 @@ public class QueueTasksImpl implements QueueTasks {
     public PriorityQueue<Car> implementPriorityQueueThroughComparator(List<Car> cars) {
         return null;
     }
-
 }
