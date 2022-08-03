@@ -173,6 +173,6 @@ class QueueTasksTest {
         StringBuilder actual = new StringBuilder();
         while (!carsQueue.isEmpty())
             actual.append(carsQueue.poll().getBrand()).append(" ");
-        assertEquals(expected, actual.toString().strip());
+        assertEquals(expected, actual.toString().trim());
     }
 }
