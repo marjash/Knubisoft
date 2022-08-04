@@ -7,10 +7,10 @@ import com.knubisoft.base.string.StringTasksImpl;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Method;
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ReflectionTasksTest {
 
@@ -84,6 +84,12 @@ public class ReflectionTasksTest {
     @SneakyThrows
     public void countPrivateMethodsInClassFail() {
         assertThrows(NoSuchElementException.class, () -> instance.countPrivateMethodsInClass(null));
+    }
+
+    @Test
+    public void isMethodHasAnnotationSuccessful() throws ClassNotFoundException, NoSuchMethodException {
+        Class<?> clazz = Class.forName("com.knubisoft.base.reflection.model.InheritedEntryModel");
+        assertTrue(instance.isMethodHasAnnotation(clazz.getMethod("builder"), clazz));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.knubisoft.base.reflection;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -25,13 +26,13 @@ public interface ReflectionTasks {
      * Write a java program to scan the current interface (ReflectionTasks.java) and find all implementation for it.
      * @param cls - class which will be scanned.
      * */
-    <T> Class<? extends T> findImplementationForInterface(Class<T> cls);
+    <T> Class<? extends T> findImplementationForInterface(Class<T> cls) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException;
     /**
      * Find all fields of an object from the first task and return a map where key is name of field
      * and value is value of field
      * @param cls - class which will be scanned.
      * */
-    Map<String, Object> findAllFieldsForClass(Class<?> cls);
+    Map<String, Object> findAllFieldsForClass(Class<?> cls) throws NoSuchFieldException;
     /**
      * Write a Java program and create more fields with different access levels from the first task for your model.
      * Count all private methods in it.
