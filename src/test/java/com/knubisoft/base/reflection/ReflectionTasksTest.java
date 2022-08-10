@@ -7,6 +7,7 @@ import com.knubisoft.base.string.StringTasksImpl;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.NoSuchElementException;
 
@@ -93,7 +94,15 @@ public class ReflectionTasksTest {
     }
 
     @Test
-    public void evaluateMethodByNameArgsSuccessful() {
+    public void evaluateMethodByNameSuccessful() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Class<?> clazz = Class.forName("com.knubisoft.base.string.StringTasksImpl");
+        assertEquals("hello", instance.evaluateMethodByName(clazz, "bla"));
+        assertEquals("operation is successful", instance.evaluateMethodByName(clazz, "blabla"));
+    }
+
+    @Test
+    @SneakyThrows
+    public void evaluateMethodByNameArgsSuccessful() throws NoSuchMethodException {
         assertEquals("dlroW ,olleH",
                 instance.evaluateMethodWithArgsByName(new StringTasksImpl(), "reverseString","Hello, World"));
         assertEquals("He, Worldllo",
@@ -113,5 +122,11 @@ public class ReflectionTasksTest {
         assertThrows(IllegalArgumentException.class,
                 () -> instance.evaluateMethodWithArgsByName(new StringTasksImpl(),
                         "insertStringInMiddle", null));
+    }
+
+    @SneakyThrows
+    @Test
+    public void changePrivateFieldValueSuccessful(){
+        assertEquals("ACDC", instance.changePrivateFieldValue(new StringTasksImpl(), "str", "ACDC"));
     }
 }

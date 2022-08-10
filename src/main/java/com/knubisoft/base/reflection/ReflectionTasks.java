@@ -54,7 +54,7 @@ public interface ReflectionTasks {
      * @param cls - class which will be scanned.
      * @param name - name of the method.
      * */
-    Object evaluateMethodByName(Class<?> cls, String name);
+    Object evaluateMethodByName(Class<?> cls, String name) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;
     /**
      * You have to evaluate the method of class by the name and put to there args.
      * You need to return a value which will be returned from a found method.
@@ -63,7 +63,7 @@ public interface ReflectionTasks {
      * @param name - name of the method.
      * @param args - arrays of args will be used in found method.
      * */
-    Object evaluateMethodWithArgsByName(Object obj, String name, Object... args);
+    Object evaluateMethodWithArgsByName(Object obj, String name, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;
     /**
      * You have to find the field of the instance by the name and put to there a new value and save it.
      * Return the current instance with a new set up value of the field.
@@ -71,5 +71,5 @@ public interface ReflectionTasks {
      * @param name - name of the field.
      * @param newValue - new value for the field.
      * */
-    Object changePrivateFieldValue(Object instance, String name, Object newValue);
+    Object changePrivateFieldValue(Object instance, String name, Object newValue) throws NoSuchFieldException;
 }
