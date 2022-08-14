@@ -1,7 +1,7 @@
 package com.knubisoft.base.string;
 
-import java.util.Locale;
-import java.util.NoSuchElementException;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class StringTasksImpl implements StringTasks {
     private String str = "Java";
@@ -105,28 +105,78 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String removeAllCharacters(String str, char charToRemove) {
-        return null;
+        if (str == null)
+            throw new IllegalArgumentException();
+        str = str.replaceAll(String.valueOf(charToRemove), "");
+        return str;
     }
 
     @Override
     public String toCamelCase(String str) {
-        return null;
+        if (str == null || str.equals(""))
+            throw new IllegalArgumentException();
+        String result = "";
+        boolean b = false;
+        for (int i = 0; i < str.length(); i++) {
+            if(Character.isLetter(str.charAt(i))) {
+                if (b) {
+                    result += Character.toUpperCase(str.charAt(i));
+                    b = false;
+                    continue;
+                }
+                result += str.charAt(i);
+            }
+            else {
+                b = true;
+            }
+        }
+        return result;
     }
 
     @Override
     public String getCountRepeatableString(String str) {
-        return null;
+        if (str == null)
+            throw new IllegalArgumentException();
+        String result = "";
+        int count = 1;
+        for (int i = 0; i < str.length(); i++) {
+            for (int j = i + 1; j < str.length(); j++) {
+                if (str.charAt(i) == str.charAt(j)) {
+                    count++;
+                }
+            }
+            if (count > 9){
+                for (int k = 1; k <= 9; k++) {
+                    result += String.valueOf(k);
+                }
+                count = count - 9;
+            }
+            for (int k = 1; k <= count; k++) {
+                result += String.valueOf(k);
+            }
+            count = 1;
+        }
+        return result;
     }
 
     @Override
     public String sortStringCharactersAsc(String str) {
-        return null;
-    }
-
-    public String bla(){
-        return "hello";
-    }
-
-    public void blabla(){
+        if (str == null)
+            throw new IllegalArgumentException();
+        char[] c = str.toCharArray();
+        for (int i = 0; i < str.length(); i++) {
+            for (int j = 0; j < str.length() - 1; j++) {
+                if (c[j] == c[j+1]){
+                    continue;
+                }
+                if (c[j] > c[j+1]){
+                    char temp = c[j];
+                    c[j] = c[j+1];
+                    c[j+1] = temp;
+                }
+            }
+        }
+        str = String.valueOf(c);
+        return str;
     }
 }
