@@ -1,6 +1,5 @@
 package com.knubisoft.base.trees;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,42 +11,19 @@ public class TreeTasksImpl implements TreeTasks {
     }
 
     @Override
-    public List<Integer> inorderTraversal(TreeNode node) {
-        List<Integer> arr = new ArrayList<>();
-        TreeNode current = node;
-        while (current != null) {
-            arr.add(0, current.val);
-//            if (current.left != null)
-                current = current.left;
-            if (current != null) {
-                if (current.right != null) {
-                    arr.add(0, current.right.val);
+    public List<Integer> inorderTraversal(TreeNode node, List<Integer> arr) {
+        if (node != null) {
+            inorderTraversal(node.left, arr);
+            if (node.left != null) {
+                if (arr.contains(node.left.val)) {
+                    arr.add(node.val);
                 }
             }
-        }
-//        arr.add(0, current.val);
-//        if (node.right != null)
-            current = node.right;
-        int l = arr.size();
-
-        while (current != null){
-            if (current.right != null) {
-                if (current.right.right != null){
-                    arr.add(l, current.right.right.val);
-                }
-                    arr.add(l, current.right.val);
+            else {
+                arr.add(node.val);
             }
-            arr.add(l, current.val);
-            if (current.left != null) {
-                current = current.left;
-            }
-            else if (current.right != null)
-                current = current.right;
-            if(current.left == null && current.right == null)
-                break;
+            inorderTraversal(node.right, arr);
         }
-        arr.add(l, current.val);
-
         return arr;
     }
 
@@ -65,7 +41,15 @@ public class TreeTasksImpl implements TreeTasks {
 
     @Override
     public int maxDepth(TreeNode node) {
-        return -1;
+        if (node != null) {
+            int left = maxDepth(node.left);
+            int right = maxDepth(node.right);
+            if (left > right)
+                return left + 1;
+            else
+                return right + 1;
+        }
+        return 0;
     }
 
     @Override
