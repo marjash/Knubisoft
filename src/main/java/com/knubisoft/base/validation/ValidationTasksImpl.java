@@ -9,6 +9,8 @@ public class ValidationTasksImpl implements ValidationTasks {
 
     @Override
     public User buildUser() {
+        User user = new User();
+        user.setId(1L);
         return null;
     }
 
