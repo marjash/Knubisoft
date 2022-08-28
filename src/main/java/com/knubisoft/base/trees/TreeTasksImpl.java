@@ -58,7 +58,19 @@ public class TreeTasksImpl implements TreeTasks {
 
     @Override
     public boolean hasPathSum(TreeNode node, int targetSum) {
-        return false;
+        boolean res = false;
+            int sum = targetSum - node.val;
+            if (sum == 0 && node.left == null && node.right == null) {
+                res = true;
+                return res;
+            }
+            if (node.left != null) {
+                res = res || hasPathSum(node.left, sum);
+            }
+            if (node.right != null) {
+                res = res || hasPathSum(node.right, sum);
+            }
+        return res;
     }
 
     @Override
