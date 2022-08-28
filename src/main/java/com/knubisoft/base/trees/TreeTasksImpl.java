@@ -75,7 +75,14 @@ public class TreeTasksImpl implements TreeTasks {
 
     @Override
     public TreeNode invertTree(TreeNode node) {
-        return null;
+        if (node != null) {
+            TreeNode treeNode = node.left;
+            node.left = node.right;
+            node.right = treeNode;
+            invertTree(node.left);
+            invertTree(node.right);
+        }
+        return node;
     }
 
     @Override
