@@ -102,6 +102,15 @@ public class TreeTasksImpl implements TreeTasks {
 
     @Override
     public TreeNode mergeTrees(TreeNode node1, TreeNode node2) {
-        return null;
+        if (node1 != null && node2 != null) {
+            mergeTrees(node1.left, node2.left);
+            node1.val = node1.val + node2.val;
+            mergeTrees(node1.right, node2.right);
+            if (node1.left == null && node2.left != null)
+                node1.left = node2.left;
+            if (node1.right == null && node2.right != null)
+                node1.right = node2.right;
+        }
+        return node1;
     }
 }
