@@ -118,7 +118,7 @@ public interface TreeTasks {
      * @param node Root node.
      * @return Tree values in inordered traversal
      */
-     List<Integer> inorderTraversal(TreeNode node, List<Integer> arr);
+     List<Integer> inorderTraversal(TreeNode node);
 
     /**
      * Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).

@@ -1,5 +1,6 @@
 package com.knubisoft.base.trees;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -10,10 +11,12 @@ public class TreeTasksImpl implements TreeTasks {
         return node1.equals(node2);
     }
 
+
     @Override
-    public List<Integer> inorderTraversal(TreeNode node, List<Integer> arr) {
+    public List<Integer> inorderTraversal(TreeNode node) {
+        List<Integer> arr = new ArrayList<>();
         if (node != null) {
-            inorderTraversal(node.left, arr);
+            arr = inorderTraversal(node.left);
             if (node.left != null) {
                 if (arr.contains(node.left.val)) {
                     arr.add(node.val);
@@ -22,7 +25,8 @@ public class TreeTasksImpl implements TreeTasks {
             else {
                 arr.add(node.val);
             }
-            inorderTraversal(node.right, arr);
+            List<Integer> arr2 = inorderTraversal(node.right);
+            arr.addAll(arr2);
         }
         return arr;
     }
