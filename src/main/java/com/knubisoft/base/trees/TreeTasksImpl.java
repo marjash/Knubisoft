@@ -87,7 +87,17 @@ public class TreeTasksImpl implements TreeTasks {
 
     @Override
     public int sumOfLeftLeaves(TreeNode node) {
-        return -1;
+        int res = 0;
+        if (node != null) {
+            if (node.left != null) {
+                if (node.left.left == null && node.left.right == null)
+                    res += node.left.val;
+                else
+                    res = sumOfLeftLeaves(node.left);
+            }
+            res += sumOfLeftLeaves(node.right);
+        }
+        return res;
     }
 
     @Override
