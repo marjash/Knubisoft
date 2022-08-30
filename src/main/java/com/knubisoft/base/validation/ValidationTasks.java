@@ -22,7 +22,7 @@ public interface ValidationTasks {
     /**
      * Validate your instance (p.1 - p.5)
      * */
-    void validate(Object instance);
+    boolean validate(Object instance);
     /**
      * Builder to create User
      * */

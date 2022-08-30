@@ -1,17 +1,29 @@
 package com.knubisoft.base.validation;
 
+import com.knubisoft.base.validation.annotation.MaxLengthTracker;
+import org.checkerframework.checker.units.qual.Length;
+
 public class ValidationTasksImpl implements ValidationTasks {
 
     @Override
-    public void validate(Object instance) {
-
+    public boolean validate(Object instance) {
+        MaxLengthTracker maxLengthTracker = new MaxLengthTracker();
+//        Class<?> cls = instance.getClass();
+        return maxLengthTracker.trackMaxLength(instance);
     }
+
 
     @Override
     public User buildUser() {
         User user = new User();
         user.setId(1L);
-        return null;
+        user.setName("Ivannnnnnn");
+        user.setSurname("Mazepaaaaaaaaaaa");
+        user.setMarried(true);
+        user.setCountOfChildren(2);
+        user.setCountOfPets(2);
+        user.setFkUserGeneralDetails(5L);
+        return user;
     }
 
     @Override
