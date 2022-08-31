@@ -2,6 +2,9 @@ package com.knubisoft.base.validation;
 
 import com.knubisoft.base.validation.annotationimpl.AnnotationTracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ValidationTasksImpl implements ValidationTasks {
 
     @Override
@@ -9,8 +12,11 @@ public class ValidationTasksImpl implements ValidationTasks {
         AnnotationTracker annotationTracker = new AnnotationTracker();
         if (!annotationTracker.trackEntity(instance.getClass()))
             return false;
-        return annotationTracker.trackNotNull(instance) && annotationTracker.trackMaxLength(instance);
+        return annotationTracker.trackNotNull(instance) && annotationTracker.trackMaxLength(instance) &&
+                annotationTracker.trackPrimaryKey(instance);
     }
+
+    List<User> users = new ArrayList<>();
 
 
     @Override
@@ -26,9 +32,17 @@ public class ValidationTasksImpl implements ValidationTasks {
         return user;
     }
 
+
     @Override
     public UserGeneralDetails buildUserGeneralDetails() {
-        return null;
+        UserGeneralDetails userGeneralDetails = new UserGeneralDetails();
+        userGeneralDetails.setId(2L);
+        userGeneralDetails.setPreviousProfession("driver");
+        userGeneralDetails.setCountry("Ukraine");
+        userGeneralDetails.setOblast("Lvivska");
+        userGeneralDetails.setCity("Lviv");
+        userGeneralDetails.setFkUserAddressDetails(1L);
+        return userGeneralDetails;
     }
 
     @Override

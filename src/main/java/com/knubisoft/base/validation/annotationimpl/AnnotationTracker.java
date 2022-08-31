@@ -2,6 +2,7 @@ package com.knubisoft.base.validation.annotationimpl;
 
 import com.knubisoft.base.validation.annotation.MaxLength;
 import com.knubisoft.base.validation.annotation.NotNull;
+import com.knubisoft.base.validation.annotation.PrimaryKey;
 import lombok.SneakyThrows;
 
 import java.lang.annotation.Annotation;
@@ -71,5 +72,20 @@ public class AnnotationTracker {
         }
         System.out.println("Your class don't have annotation @Entity. You can't create user");
         return false;
+    }
+
+    @SneakyThrows
+    public boolean trackPrimaryKey(Object user){
+        List<Field> fields = getNameOfField(user, PrimaryKey.class);
+        List<Method> methods = getNameOfMethod(user, fields);
+        List<Object> o = new ArrayList<>();
+        for (int i = 0; i < fields.size(); i++) {
+            Object invoke = methods.get(i).invoke(user);
+            if (o.contains(invoke)) {
+                return false;
+            }
+            o.add(invoke);
+        }
+        return true;
     }
 }

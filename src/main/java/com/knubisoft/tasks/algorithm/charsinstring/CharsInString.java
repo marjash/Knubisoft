@@ -14,5 +14,4 @@ public interface CharsInString {
      * @return Map with char and it's count in string
      */
     Map<Character, Integer> charactersCount(String text);
-
 }
