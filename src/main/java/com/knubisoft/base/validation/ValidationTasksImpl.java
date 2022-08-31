@@ -7,7 +7,8 @@ public class ValidationTasksImpl implements ValidationTasks {
     @Override
     public boolean validate(Object instance) {
         AnnotationTracker annotationTracker = new AnnotationTracker();
-//        Class<?> cls = instance.getClass();
+        if (!annotationTracker.trackEntity(instance.getClass()))
+            return false;
         return annotationTracker.trackNotNull(instance) && annotationTracker.trackMaxLength(instance);
     }
 
@@ -16,7 +17,7 @@ public class ValidationTasksImpl implements ValidationTasks {
     public User buildUser() {
         User user = new User();
         user.setId(1L);
-        user.setName("Ivannnnnnnnnnn");
+        user.setName("Ivan");
         user.setSurname("Mazepa");
         user.setMarried(true);
         user.setCountOfChildren(2);

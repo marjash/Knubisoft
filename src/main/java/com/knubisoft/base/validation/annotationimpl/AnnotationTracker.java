@@ -62,4 +62,14 @@ public class AnnotationTracker {
         }
         return true;
     }
+
+    public boolean trackEntity(Class<?> cls){
+        Annotation[] annotations = cls.getAnnotations();
+        for (Annotation a : annotations) {
+            if (a.toString().contains("Entity"))
+                return true;
+        }
+        System.out.println("Your class don't have annotation @Entity. You can't create user");
+        return false;
+    }
 }
