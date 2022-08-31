@@ -1,15 +1,14 @@
 package com.knubisoft.base.validation;
 
-import com.knubisoft.base.validation.annotation.MaxLengthTracker;
-import org.checkerframework.checker.units.qual.Length;
+import com.knubisoft.base.validation.annotationimpl.AnnotationTracker;
 
 public class ValidationTasksImpl implements ValidationTasks {
 
     @Override
     public boolean validate(Object instance) {
-        MaxLengthTracker maxLengthTracker = new MaxLengthTracker();
+        AnnotationTracker annotationTracker = new AnnotationTracker();
 //        Class<?> cls = instance.getClass();
-        return maxLengthTracker.trackMaxLength(instance);
+        return annotationTracker.trackNotNull(instance) && annotationTracker.trackMaxLength(instance);
     }
 
 
@@ -17,8 +16,8 @@ public class ValidationTasksImpl implements ValidationTasks {
     public User buildUser() {
         User user = new User();
         user.setId(1L);
-        user.setName("Ivannnnnnn");
-        user.setSurname("Mazepaaaaaaaaaaa");
+        user.setName("Ivannnnnnnnnnn");
+        user.setSurname("Mazepa");
         user.setMarried(true);
         user.setCountOfChildren(2);
         user.setCountOfPets(2);
