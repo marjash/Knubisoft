@@ -1,8 +1,6 @@
 package com.knubisoft.tasks.algorithm.collection;
 
 import lombok.SneakyThrows;
-import org.apache.commons.collections4.ClosureUtils;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.comparators.ComparatorChain;
 
@@ -134,6 +132,24 @@ public class UtilsImpl implements Utils {
 
     @Override
     public boolean isSubCollection(Collection<?> a, Collection<?> b) {
-        return false;
+        if (a == null || b == null)
+            throw new NullPointerException();
+        Iterator<?> iteratorA = a.iterator();
+        Iterator<?> iteratorB = b.iterator();
+        boolean res = false;
+        for (; iteratorA.hasNext(); ) {
+            Object collectionA = iteratorA.next();
+            for (; iteratorB.hasNext(); ) {
+                Object collectionB = iteratorB.next();
+                if (collectionA.equals(collectionB)) {
+                    iteratorB.remove();
+                    res = true;
+                    break;
+                }
+                else
+                    res = false;
+            }
+        }
+        return res;
     }
 }

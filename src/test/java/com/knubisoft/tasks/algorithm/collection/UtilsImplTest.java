@@ -161,5 +161,34 @@ public class UtilsImplTest {
     public void chainedComparatorFail(){
         assertThrows(NullPointerException.class, () -> utils.chainedComparator(new NullComparator(null)));
     }
+
+    @Test
+    public void isSubCollectionSuccessful(){
+        List<Integer> a = new ArrayList<>();
+        List<Integer> b = new ArrayList<>();
+        a.add(1);
+        a.add(4);
+        a.add(4);
+        a.add(4);
+        a.add(7);
+        a.add(8);
+
+        b.add(1);
+        b.add(4);
+        b.add(4);
+        b.add(7);
+        b.add(8);
+        b.add(8);
+        b.add(8);
+        b.add(8);
+        assertEquals(CollectionUtils.isSubCollection(a, b), utils.isSubCollection(a, b));
+    }
+
+    @Test
+    public void isSubCollectionFail(){
+        assertThrows(NullPointerException.class, ()-> utils.isSubCollection(null, Arrays.asList(2, 3, 4)));
+        assertThrows(NullPointerException.class, ()-> utils.isSubCollection(null, null));
+        assertThrows(NullPointerException.class, ()-> utils.isSubCollection(Arrays.asList(1, 5, 2), null));
+    }
 }
 
