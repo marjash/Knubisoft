@@ -99,10 +99,24 @@ public class UtilsImpl implements Utils {
     }
 
 
-
     @Override
     public <O> Collection<O> subtract(Iterable<? extends O> a, Iterable<? extends O> b) {
-        return null;
+        if (a == null || b == null)
+            throw new NullPointerException();
+        Iterator<? extends O> iteratorA = a.iterator();
+        Iterator<? extends O> iteratorB = b.iterator();
+        while (iteratorA.hasNext()) {
+            O nextA = iteratorA.next();
+            while (iteratorB.hasNext()) {
+                O nextB = iteratorB.next();
+                if (nextA.equals(nextB)) {
+                    iteratorA.remove();
+                    break;
+                }
+            }
+            iteratorB = b.iterator();
+        }
+        return (Collection<O>) a;
     }
 
     @Override

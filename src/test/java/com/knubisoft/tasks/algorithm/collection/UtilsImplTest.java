@@ -94,27 +94,22 @@ public class UtilsImplTest {
 
     @Test
     public void disjunctionSuccessful(){
-        ArrayList<Integer> a = new ArrayList<>();
-        ArrayList<Integer> b = new ArrayList<>();
+        List<Integer> a = new ArrayList<>();
+        List<Integer> b = new ArrayList<>();
 
-            a.add(1);
-            a.add(2);
-            a.add(5);
-            a.add(2);
-            a.add(8);
-            a.add(3);
-            a.add(8);
-            a.add(5);
+        a.add(2);
+        a.add(4);
+        a.add(4);
+        a.add(7);
+        a.add(8);
 
-            b.add(4);
-            b.add(6);
-            b.add(9);
-            b.add(7);
-            b.add(1);
-            b.add(8);
-            b.add(8);
+        b.add(3);
+        b.add(7);
+        b.add(5);
+        b.add(1);
+        b.add(1);
 
-            assertEquals(CollectionUtils.disjunction(a, b), utils.disjunction(a, b));
+        assertEquals(CollectionUtils.disjunction(a, b), utils.disjunction(a, b));
     }
 
     @Test
@@ -124,4 +119,27 @@ public class UtilsImplTest {
         assertThrows(NullPointerException.class, ()-> utils.disjunction(null, Arrays.asList(3, 48, 5)));
     }
 
+    @Test
+    public void subtractSuccessful(){
+        List<Integer> a = new ArrayList<>();
+        List<Integer> b = new ArrayList<>();
+        a.add(1);
+        a.add(4);
+        a.add(4);
+        a.add(7);
+        a.add(8);
+        b.add(3);
+        b.add(7);
+        b.add(5);
+        b.add(1);
+        b.add(1);
+        assertEquals(CollectionUtils.subtract(a, b), utils.subtract(a, b));
+    }
+
+    @Test
+    public void subtractFail(){
+        assertThrows(NullPointerException.class, ()-> utils.subtract(null, null));
+        assertThrows(NullPointerException.class, ()-> utils.subtract(Arrays.asList(1, 2, 5), null));
+        assertThrows(NullPointerException.class, ()-> utils.subtract(null, Arrays.asList(3, 48, 5)));
+    }
 }
