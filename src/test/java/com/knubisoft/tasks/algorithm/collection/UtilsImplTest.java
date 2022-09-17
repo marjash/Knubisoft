@@ -1,6 +1,11 @@
 package com.knubisoft.tasks.algorithm.collection;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.ComparatorUtils;
+import org.apache.commons.collections4.comparators.BooleanComparator;
+import org.apache.commons.collections4.comparators.ComparatorChain;
+import org.apache.commons.collections4.comparators.NullComparator;
+import org.apache.commons.io.comparator.PathFileComparator;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -34,25 +39,26 @@ public class UtilsImplTest {
 
 
     }
+
     @Test
-    public void invertMapFail(){
-        assertThrows(NullPointerException.class, ()-> utils.invertMap(null));
+    public void invertMapFail() {
+        assertThrows(NullPointerException.class, () -> utils.invertMap(null));
     }
 
     @Test
-    public void unionSuccessful(){
-        assertEquals(Arrays.asList(1, 2, 3, 4 ,5, 6), utils.union(Arrays.asList(1, 2, 3), Arrays.asList(4, 5, 6)));
+    public void unionSuccessful() {
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), utils.union(Arrays.asList(1, 2, 3), Arrays.asList(4, 5, 6)));
     }
 
     @Test
-    public void unionFail(){
-        assertThrows(NullPointerException.class, ()-> utils.union(null, null));
-        assertThrows(NullPointerException.class, ()-> utils.union(Arrays.asList(4, 5, 6), null));
-        assertThrows(NullPointerException.class, ()-> utils.union(null, Arrays.asList(1, 2, 3)));
+    public void unionFail() {
+        assertThrows(NullPointerException.class, () -> utils.union(null, null));
+        assertThrows(NullPointerException.class, () -> utils.union(Arrays.asList(4, 5, 6), null));
+        assertThrows(NullPointerException.class, () -> utils.union(null, Arrays.asList(1, 2, 3)));
     }
 
     @Test
-    public void isEqualListSuccessful(){
+    public void isEqualListSuccessful() {
         Queue<String> list = new ArrayDeque<>();
         Queue<String> list2 = new ArrayDeque<>();
 
@@ -70,7 +76,7 @@ public class UtilsImplTest {
     }
 
     @Test
-    public void isEqualListFail(){
+    public void isEqualListFail() {
         assertFalse(utils.isEqualList(Arrays.asList(4, 5, 6), null));
         assertFalse(utils.isEqualList(null, Arrays.asList(4, 5, 6)));
         assertFalse(utils.isEqualList(Arrays.asList(4, 5, 6), Arrays.asList(1, 2, 3)));
@@ -78,7 +84,7 @@ public class UtilsImplTest {
     }
 
     @Test
-    public void synchronizedMapSuccessful(){
+    public void synchronizedMapSuccessful() {
         Map<String, Integer> map = new HashMap<>();
         map.put("Oksana", 29);
         map.put("Oleh", 33);
@@ -88,12 +94,12 @@ public class UtilsImplTest {
     }
 
     @Test
-    public void synchronizedMapFail(){
-        assertThrows(NullPointerException.class, ()-> utils.synchronizedMap(null));
+    public void synchronizedMapFail() {
+        assertThrows(NullPointerException.class, () -> utils.synchronizedMap(null));
     }
 
     @Test
-    public void disjunctionSuccessful(){
+    public void disjunctionSuccessful() {
         List<Integer> a = new ArrayList<>();
         List<Integer> b = new ArrayList<>();
 
@@ -113,14 +119,14 @@ public class UtilsImplTest {
     }
 
     @Test
-    public void disjunctionFail(){
-        assertThrows(NullPointerException.class, ()-> utils.disjunction(null, null));
-        assertThrows(NullPointerException.class, ()-> utils.disjunction(Arrays.asList(1, 2, 5), null));
-        assertThrows(NullPointerException.class, ()-> utils.disjunction(null, Arrays.asList(3, 48, 5)));
+    public void disjunctionFail() {
+        assertThrows(NullPointerException.class, () -> utils.disjunction(null, null));
+        assertThrows(NullPointerException.class, () -> utils.disjunction(Arrays.asList(1, 2, 5), null));
+        assertThrows(NullPointerException.class, () -> utils.disjunction(null, Arrays.asList(3, 48, 5)));
     }
 
     @Test
-    public void subtractSuccessful(){
+    public void subtractSuccessful() {
         List<Integer> a = new ArrayList<>();
         List<Integer> b = new ArrayList<>();
         a.add(1);
@@ -137,9 +143,23 @@ public class UtilsImplTest {
     }
 
     @Test
-    public void subtractFail(){
-        assertThrows(NullPointerException.class, ()-> utils.subtract(null, null));
-        assertThrows(NullPointerException.class, ()-> utils.subtract(Arrays.asList(1, 2, 5), null));
-        assertThrows(NullPointerException.class, ()-> utils.subtract(null, Arrays.asList(3, 48, 5)));
+    public void subtractFail() {
+        assertThrows(NullPointerException.class, () -> utils.subtract(null, null));
+        assertThrows(NullPointerException.class, () -> utils.subtract(Arrays.asList(1, 2, 5), null));
+        assertThrows(NullPointerException.class, () -> utils.subtract(null, Arrays.asList(3, 48, 5)));
+    }
+
+    @Test
+    public void chainedComparatorSuccessful() {
+        ComparatorChain chain = new ComparatorChain();
+        chain.addComparator(new BooleanComparator(false));
+        chain.addComparator(new BooleanComparator(true));
+        assertEquals(ComparatorUtils.chainedComparator(chain), utils.chainedComparator(chain));
+
+    }
+    @Test
+    public void chainedComparatorFail(){
+        assertThrows(NullPointerException.class, () -> utils.chainedComparator(new NullComparator(null)));
     }
 }
+

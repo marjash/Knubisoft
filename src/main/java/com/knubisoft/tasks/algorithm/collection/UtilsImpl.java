@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.collections4.ClosureUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.collections4.comparators.ComparatorChain;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -121,7 +122,14 @@ public class UtilsImpl implements Utils {
 
     @Override
     public <E> Comparator<E> chainedComparator(Comparator<E>... comparators) {
-        return null;
+        ComparatorChain<E> chain = new ComparatorChain<>();
+        for (Comparator<E> comparator : comparators) {
+            if (comparator == null) {
+                throw new NullPointerException();
+            }
+            chain.addComparator(comparator);
+        }
+        return chain;
     }
 
     @Override
