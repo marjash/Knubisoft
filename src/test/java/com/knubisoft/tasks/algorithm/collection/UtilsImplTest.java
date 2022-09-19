@@ -5,7 +5,6 @@ import org.apache.commons.collections4.ComparatorUtils;
 import org.apache.commons.collections4.comparators.BooleanComparator;
 import org.apache.commons.collections4.comparators.ComparatorChain;
 import org.apache.commons.collections4.comparators.NullComparator;
-import org.apache.commons.io.comparator.PathFileComparator;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
