@@ -1,11 +1,11 @@
 package com.knubisoft.tasks.algorithm.collection;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 public class FilesImpl implements Files {
@@ -31,16 +31,38 @@ public class FilesImpl implements Files {
                 if (arr1[i] != arr2[i])
                     return false;
             }
-        }
-        else
+        } else
             return false;
         return true;
     }
 
     @Override
     public void copyDirectoryToDirectory(File sourceDir, File destinationDir) throws IOException {
-
+        if (sourceDir == null || destinationDir == null)
+            throw new NullPointerException("file can't be null");
+        if (!sourceDir.exists())
+            throw new FileNotFoundException("sourceDir doesn't exist");
+        if (!sourceDir.isDirectory())
+            throw new IOException(sourceDir + " is not a directory");
+        if (sourceDir.getCanonicalPath().equals(destinationDir.getCanonicalPath()))
+            throw new IOException("Source '" + sourceDir + "' and destination '" + destinationDir + "' are the same");
+        Path destination = destinationDir.toPath();
+        File copyDir = new File(destination + "/" + sourceDir.getName());
+        if (!copyDir.exists())
+            copyDir.mkdirs();
+        File[] files = sourceDir.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                if (f.isDirectory())
+                    copyDirectoryToDirectory(f, copyDir);
+                else {
+                    Path path = Paths.get(copyDir.toPath() + "/" + f.getName());
+                    java.nio.file.Files.copy(f.toPath(), path, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
+                }
+            }
+        }
     }
+
 
     @Override
     public String toString(URL url, Charset encoding) throws IOException {

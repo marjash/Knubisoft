@@ -1,12 +1,15 @@
 package com.knubisoft.tasks.algorithm.collection;
 
 import lombok.SneakyThrows;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FilesImplTest {
 
@@ -37,8 +40,26 @@ class FilesImplTest {
     }
 
 
+    @SneakyThrows
     @Test
-    void copyDirectoryToDirectory() {
+    void copyDirectoryToDirectorySuccessful() {
+        File file1 = new File("one");
+        File file2 = new File("two");
+        files.copyDirectoryToDirectory(file1, file2);
+        assertTrue(new File("two/one/bla/text1.txt").exists());
+        assertTrue(new File("two/one/bla/text2.txt").exists());
+        assertTrue(new File("two/one/text1.txt").exists());
+        assertTrue(new File("two/one/text2.txt").exists());
+        assertTrue(new File("two/one/text3.txt").exists());
+        assertTrue(new File("two/one/text4.txt").exists());
+    }
+
+    @Test
+    void copyDirectoryToDirectoryFail(){
+        assertThrows(NullPointerException.class, ()-> files.copyDirectoryToDirectory(null, new File("two" )));
+        assertThrows(IOException.class, ()-> files.copyDirectoryToDirectory(new File("one/text4"), new File("two" )));
+        assertThrows(IOException.class, ()-> files.copyDirectoryToDirectory(new File("one"), new File("one" )));
+        assertThrows(FileNotFoundException.class, ()-> files.copyDirectoryToDirectory(new File("one/1"), new File("two" )));
     }
 
     @Test
