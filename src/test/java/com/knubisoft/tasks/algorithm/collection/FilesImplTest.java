@@ -2,11 +2,15 @@ package com.knubisoft.tasks.algorithm.collection;
 
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.NotDirectoryException;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -62,27 +66,74 @@ class FilesImplTest {
         assertThrows(FileNotFoundException.class, ()-> files.copyDirectoryToDirectory(new File("one/1"), new File("two" )));
     }
 
+    @SneakyThrows
     @Test
-    void testToString() {
+    void testToStringSuccessful() {
+        URL url = new URL("https://www.baeldung.com/java-char-encoding");
+        assertEquals(IOUtils.toString(url, StandardCharsets.UTF_8), files.toString(url, StandardCharsets.UTF_8));
+    }
+    @SneakyThrows
+    @Test
+    void testToStringFail(){
+        URL url = new URL("https://www.baeldung.com/java");
+        assertThrows(IOException.class, ()-> files.toString(url, StandardCharsets.UTF_8));
     }
 
+
+    @SneakyThrows
     @Test
-    void testToString1() {
+    void testToString1Successful() {
+        InputStream inputStream = new FileInputStream("text1.txt");
+        InputStream inputStream2 = new FileInputStream("text1.txt");
+        assertEquals(IOUtils.toString(inputStream, StandardCharsets.UTF_8), files.toString(inputStream2, StandardCharsets.UTF_8));
     }
 
+    @SneakyThrows
     @Test
-    void toByteArray() {
+    void toByteArraySuccessful() {
+        URL url = new URL("https://www.google.com");
+        assertEquals(IOUtils.toByteArray(url), files.toByteArray(url));
+    }
+
+    @SneakyThrows
+    @Test
+    void toByteArrayFail(){
+        assertThrows(NullPointerException.class, ()-> files.toByteArray(null));
     }
 
     @Test
     void normalize() {
     }
 
+    @SneakyThrows
     @Test
-    void readLines() {
+    void readLinesSuccessful() {
+        File file = new File("text1.txt");
+        InputStream inputStream = new FileInputStream(file);
+        assertEquals(IOUtils.readLines(inputStream, StandardCharsets.UTF_8), files.readLines(file, StandardCharsets.UTF_8));
+    }
+
+    @SneakyThrows
+    @Test
+    void readLinesFail(){
+        File file = new File("dit");
+        File file2 = new File("dir");
+        assertThrows(NullPointerException.class, ()-> files.readLines(null, StandardCharsets.UTF_8));
+        assertThrows(FileNotFoundException.class, ()-> files.readLines(file, StandardCharsets.UTF_8));
+        assertThrows(FileNotFoundException.class, ()-> files.readLines(file2, StandardCharsets.UTF_8));
     }
 
     @Test
-    void isEmptyDirectory() {
+    void isEmptyDirectorySuccessful() {
+        File file = new File("one");
+        File file2 = new File("dit");
+        assertFalse(files.isEmptyDirectory(file));
+        assertFalse(files.isEmptyDirectory(file2));
+    }
+
+    @Test
+    void isEmptyDirectoryFail(){
+        File file = new File("text1.txt");
+        assertThrows(NotDirectoryException.class, ()-> files.isEmptyDirectory(file));
     }
 }

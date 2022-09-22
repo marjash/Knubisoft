@@ -1,12 +1,20 @@
 package com.knubisoft.tasks.algorithm.collection;
 
+import lombok.SneakyThrows;
+
 import java.io.*;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class FilesImpl implements Files {
 
@@ -66,17 +74,33 @@ public class FilesImpl implements Files {
 
     @Override
     public String toString(URL url, Charset encoding) throws IOException {
-        return null;
+        try (Scanner scanner = new Scanner(url.openStream(), encoding.toString())) {
+            return scanner.useDelimiter("\\A").next();
+        } catch (IOException e) {
+            throw new IOException("IOException");
+        }
     }
 
+
     @Override
-    public String toString(InputStream input, Charset charset) throws IOException {
-        return null;
+    public String toString(InputStream input, Charset charset) {
+        if (input == null)
+            throw new NullPointerException("InputStream cannot be null");
+        try (Scanner scanner = new Scanner(input, charset.name())) {
+            return scanner.useDelimiter("\\A").next();
+        }
     }
+
 
     @Override
     public byte[] toByteArray(URL url) throws IOException {
-        return new byte[0];
+        if (url == null)
+            throw new NullPointerException();
+        try (InputStream inputStream = url.openStream()){
+            return inputStream.readAllBytes();
+        } catch (IOException e) {
+            throw new IOException();
+        }
     }
 
     @Override
@@ -86,11 +110,24 @@ public class FilesImpl implements Files {
 
     @Override
     public List<String> readLines(File file, Charset charset) throws IOException {
-        return null;
+        if (file == null)
+            throw new NullPointerException();
+        if (!file.exists() || file.isDirectory())
+            throw new FileNotFoundException();
+        List<String> result = new ArrayList<>();
+        try (Scanner scanner = new Scanner(file, charset.name())) {
+            while (scanner.hasNextLine())
+                result.add(scanner.nextLine());
+        }
+        return result;
     }
 
+    @SneakyThrows
     @Override
     public boolean isEmptyDirectory(File directory) {
-        return false;
+        if (!directory.isDirectory())
+            throw new NotDirectoryException(directory + " is not s directory");
+        File[] files = directory.listFiles();
+        return files == null;
     }
 }
