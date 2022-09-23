@@ -1,6 +1,8 @@
 package com.knubisoft.tasks.algorithm.collection;
 
 import lombok.SneakyThrows;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
@@ -12,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -103,9 +106,17 @@ public class FilesImpl implements Files {
         }
     }
 
+    @SneakyThrows
     @Override
     public String normalize(String fileName) {
-        return null;
+        if (fileName == null)
+            return null;
+        String normalize = FilenameUtils.normalize(fileName);
+        if (normalize == null)
+            return null;
+        if (fileName.contains("/"))
+            normalize = normalize.replace("\\", "/");
+        return normalize;
     }
 
     @Override

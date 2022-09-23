@@ -2,6 +2,7 @@ package com.knubisoft.tasks.algorithm.collection;
 
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +12,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.NotDirectoryException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -91,8 +93,9 @@ class FilesImplTest {
     @SneakyThrows
     @Test
     void toByteArraySuccessful() {
-        URL url = new URL("https://www.google.com");
-        assertEquals(IOUtils.toByteArray(url), files.toByteArray(url));
+        URL url = new URL("https://google.com");
+        InputStream inputStream = url.openStream();
+        assertEquals(inputStream.readAllBytes(), files.toByteArray(url));
     }
 
     @SneakyThrows
@@ -103,6 +106,24 @@ class FilesImplTest {
 
     @Test
     void normalize() {
+        assertEquals("/foo/", files.normalize("/foo//"));
+        assertEquals("/foo/", files.normalize("/foo/./"));
+        assertEquals("/bar", files.normalize("/foo/../bar"));
+        assertEquals("/bar/", files.normalize("/foo/../bar/"));
+        assertEquals("/baz", files.normalize("/foo/../bar/../baz"));
+//        assertEquals("/foo/bar", files.normalize("//foo//./bar"));
+        assertNull(files.normalize("/../"));
+        assertNull(files.normalize("../foo"));
+        assertEquals("foo/", files.normalize("foo/bar/.."));
+        assertEquals("bar", files.normalize("foo/../bar"));
+        assertEquals("//server/bar", files.normalize("//server/foo/../bar"));
+        assertNull(files.normalize("//server/../bar"));
+        assertEquals("C:\\bar", files.normalize("C:\\foo\\..\\bar"));
+        assertNull(files.normalize("C:\\..\\bar "));
+        assertEquals("~/bar/", files.normalize("~/foo/../bar/"));
+        assertEquals("//server/bar", files.normalize("//server/foo/../bar"));
+        assertNull(files.normalize("~/../bar"));
+        FilenameUtils.normalize("//server/foo/../bar");
     }
 
     @SneakyThrows
