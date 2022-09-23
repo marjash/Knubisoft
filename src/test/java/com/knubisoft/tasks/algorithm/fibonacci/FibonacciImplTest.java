@@ -36,6 +36,8 @@ class FibonacciImplTest {
         if (n <= 1) {
             return n;
         }
+        if (n >= 40)
+            return -1;
         lookup.putIfAbsent(n, fib(n - 1, lookup) + fib(n - 2, lookup));
         return lookup.get(n);
     }
