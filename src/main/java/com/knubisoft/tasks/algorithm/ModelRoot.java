@@ -1,12 +1,14 @@
 package com.knubisoft.tasks.algorithm;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
- * TODO fix model
- *
  * @see json and xml file
  */
+
+@Data
 public class ModelRoot {
 
     public List<Item> items;
@@ -33,5 +35,4 @@ public class ModelRoot {
         public String id;
         public String type;
     }
-
 }

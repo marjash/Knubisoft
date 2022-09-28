@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class JsonTasksImplTest {
 
@@ -24,35 +24,53 @@ class JsonTasksImplTest {
     }
 
     @Test
-    void parseJson() {
+    void parseJsonSuccess() {
         ModelRoot result = object.parseJson(content);
-
         assertEquals(3, result.items.size());
-        /*
-            TODO add extra checks
-         */
     }
 
     @Test
-    void getAllIds() {
+    void parseJsonFail(){
+        assertThrows(NullPointerException.class, ()-> object.parseJson(""));
+        assertThrows(NullPointerException.class, ()-> object.parseJson(null));
+    }
+    @Test
+    void getAllIdsSuccess() {
         List<Integer> result = object.getAllIds(content);
-
         assertEquals(Arrays.asList(1,2,3), result);
     }
 
     @Test
-    void getNameWithIdMoreThan1() {
+    void getAllIdsFail(){
+        assertThrows(NullPointerException.class, ()-> object.getAllIds(""));
+        assertThrows(NullPointerException.class, ()-> object.getAllIds(null));
+    }
+
+    @Test
+    void getNameWithIdMoreThan1Success() {
         List<String> result = object.getNameWithIdMoreThan1(content);
         assertEquals(Arrays.asList("Cake2","Cake3"), result);
     }
 
     @Test
-    void getAllItems() {
-        List<Map<String, String>> result = object.getAllItems(content);
+    void getNameWithIdMoreThan1Fail(){
+        assertThrows(NullPointerException.class, ()-> object.getNameWithIdMoreThan1(""));
+        assertThrows(NullPointerException.class, ()-> object.getNameWithIdMoreThan1(null));
+    }
 
+    @Test
+    void getAllItemsSuccess() {
+        List<Map<String, String>> result = object.getAllItems(content);
         assertEquals(3, result.size());
-         /*
-            TODO add extra checks
-         */
+        assertTrue(result.get(0).containsKey("batters"));
+        assertTrue(result.get(1).containsKey("id"));
+        assertTrue(result.get(2).containsKey("topping"));
+        assertTrue(result.get(1).containsKey("ppu"));
+    }
+
+    @Test
+    void getAllItemsFail(){
+        assertThrows(NullPointerException.class, ()-> object.getAllItems(""));
+        assertThrows(NullPointerException.class, ()-> object.getAllItems(null));
     }
 }
