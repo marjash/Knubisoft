@@ -70,5 +70,4 @@ public class JsonTasksImpl implements JsonTasks {
         }
         return list;
     }
-
 }
