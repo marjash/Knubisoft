@@ -2,6 +2,7 @@ package com.knubisoft.tasks.algorithm.pascaltriangle;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,5 +21,8 @@ class PascalsTriangleImplTest {
         assertEquals(List.of(1, 5, 10, 10, 5, 1), triangle.calculateLineOfPascalsTriangle(6));
         assertEquals(List.of(1, 6, 15, 20, 15, 6, 1), triangle.calculateLineOfPascalsTriangle(7));
         assertEquals(500, triangle.calculateLineOfPascalsTriangle(500).size());
+        assertEquals(10000, triangle.calculateLineOfPascalsTriangle(10000).size());
+        assertEquals(List.of(), triangle.calculateLineOfPascalsTriangle(0));
+        assertEquals(List.of(), triangle.calculateLineOfPascalsTriangle(-5));
     }
 }
