@@ -1,8 +1,11 @@
 package com.knubisoft.base.validation.annotationimpl;
 
+import com.knubisoft.base.validation.ValidationTasks;
+import com.knubisoft.base.validation.ValidationTasksImpl;
 import com.knubisoft.base.validation.annotation.MaxLength;
 import com.knubisoft.base.validation.annotation.NotNull;
 import com.knubisoft.base.validation.annotation.PrimaryKey;
+import com.knubisoft.base.validation.annotation.ReferClass;
 import lombok.SneakyThrows;
 
 import java.lang.annotation.Annotation;
@@ -28,6 +31,71 @@ public class AnnotationTracker {
         return true;
     }
 
+
+    @SneakyThrows
+    public boolean trackNotNull(Object user) {
+        List<Field> fields = getNameOfField(user, NotNull.class);
+        List<Method> methods = getNameOfMethod(user, fields);
+        for (int i = 0; i < fields.size(); i++) {
+            Object invoke = methods.get(i).invoke(user);
+            if (invoke == null || invoke == "") {
+                System.out.println(fields.get(i).getName() + " can't be null");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean trackEntity(Class<?> cls) {
+        Annotation[] annotations = cls.getAnnotations();
+        for (Annotation a : annotations) {
+            if (a.toString().contains("Entity"))
+                return true;
+        }
+        System.out.println("Your class doesn't have annotation @Entity. You can't create " + cls.getSimpleName());
+        return false;
+    }
+
+    @SneakyThrows
+    public boolean trackPrimaryKey(Object user) {
+        List<Field> fields = getNameOfField(user, PrimaryKey.class);
+        List<Method> methods = getNameOfMethod(user, fields);
+        List<Object> o = new ArrayList<>();
+        for (int i = 0; i < fields.size(); i++) {
+            Object invoke = methods.get(i).invoke(user);
+            if (o.contains(invoke)) {
+                return false;
+            }
+            o.add(invoke);
+        }
+        return true;
+    }
+
+    @SneakyThrows
+    public boolean trackReferClass(Object user) {
+        ValidationTasks object = new ValidationTasksImpl();
+        ValidationTasks.UserGeneralDetails userGeneralDetails = object.buildUserGeneralDetails();
+        ValidationTasks.UserAddressDetails userAddressDetails = object.buildUserAddressDetails();
+        List<Field> fields = getNameOfField(user, ReferClass.class);
+        if (fields.isEmpty())
+            return true;
+        List<Method> method = getNameOfMethod(user, fields);
+        Object invoke = method.get(0).invoke(user);
+        Long id = null;
+        for (Field f : fields) {
+            ReferClass annotation = f.getAnnotation(ReferClass.class);
+            Class<?> cls = annotation.referClass();
+            Object o = cls.getConstructor(null).newInstance();
+            if (o instanceof ValidationTasks.UserGeneralDetails) {
+                id = userGeneralDetails.getId();
+            }
+            if (o instanceof ValidationTasks.UserAddressDetails) {
+                id = userAddressDetails.getId();
+            }
+        }
+        return invoke.equals(id);
+    }
+
     private List<Field> getNameOfField(Object user, Class<? extends Annotation> cls) {
         Field[] fields = user.getClass().getDeclaredFields();
         List<Field> annotationField = new ArrayList<>();
@@ -48,44 +116,5 @@ public class AnnotationTracker {
             methods.add(method);
         }
         return methods;
-    }
-
-    @SneakyThrows
-    public boolean trackNotNull(Object user) {
-        List<Field> fields = getNameOfField(user, NotNull.class);
-        List<Method> methods = getNameOfMethod(user, fields);
-        for (int i = 0; i < fields.size(); i++) {
-            Object invoke = methods.get(i).invoke(user);
-            if (invoke == null || invoke == "") {
-                System.out.println(fields.get(i).getName() + " can't be null");
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean trackEntity(Class<?> cls){
-        Annotation[] annotations = cls.getAnnotations();
-        for (Annotation a : annotations) {
-            if (a.toString().contains("Entity"))
-                return true;
-        }
-        System.out.println("Your class don't have annotation @Entity. You can't create user");
-        return false;
-    }
-
-    @SneakyThrows
-    public boolean trackPrimaryKey(Object user){
-        List<Field> fields = getNameOfField(user, PrimaryKey.class);
-        List<Method> methods = getNameOfMethod(user, fields);
-        List<Object> o = new ArrayList<>();
-        for (int i = 0; i < fields.size(); i++) {
-            Object invoke = methods.get(i).invoke(user);
-            if (o.contains(invoke)) {
-                return false;
-            }
-            o.add(invoke);
-        }
-        return true;
     }
 }

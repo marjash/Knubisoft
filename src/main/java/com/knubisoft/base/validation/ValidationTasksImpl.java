@@ -9,15 +9,12 @@ public class ValidationTasksImpl implements ValidationTasks {
 
     @Override
     public boolean validate(Object instance) {
-        AnnotationTracker annotationTracker = new AnnotationTracker();
-        if (!annotationTracker.trackEntity(instance.getClass()))
+        AnnotationTracker tracker = new AnnotationTracker();
+        if (!tracker.trackEntity(instance.getClass()))
             return false;
-        return annotationTracker.trackNotNull(instance) && annotationTracker.trackMaxLength(instance) &&
-                annotationTracker.trackPrimaryKey(instance);
+        return tracker.trackNotNull(instance) && tracker.trackMaxLength(instance) &&
+                tracker.trackPrimaryKey(instance) && tracker.trackReferClass(instance);
     }
-
-    List<User> users = new ArrayList<>();
-
 
     @Override
     public User buildUser() {
@@ -28,10 +25,9 @@ public class ValidationTasksImpl implements ValidationTasks {
         user.setMarried(true);
         user.setCountOfChildren(2);
         user.setCountOfPets(2);
-        user.setFkUserGeneralDetails(5L);
+        user.setFkUserGeneralDetails(2L);
         return user;
     }
-
 
     @Override
     public UserGeneralDetails buildUserGeneralDetails() {
@@ -41,12 +37,17 @@ public class ValidationTasksImpl implements ValidationTasks {
         userGeneralDetails.setCountry("Ukraine");
         userGeneralDetails.setOblast("Lvivska");
         userGeneralDetails.setCity("Lviv");
-        userGeneralDetails.setFkUserAddressDetails(1L);
+        userGeneralDetails.setFkUserAddressDetails(2L);
         return userGeneralDetails;
     }
 
     @Override
     public UserAddressDetails buildUserAddressDetails() {
-        return null;
+        UserAddressDetails userAddressDetails = new UserAddressDetails();
+        userAddressDetails.setId(1L);
+        userAddressDetails.setZipCode("81100");
+        userAddressDetails.setStreet("Kotlyarevskoho");
+        userAddressDetails.setNumberOfHouse("35");
+        return userAddressDetails;
     }
 }

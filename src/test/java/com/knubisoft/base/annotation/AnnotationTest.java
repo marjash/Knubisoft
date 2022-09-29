@@ -12,9 +12,8 @@ public class AnnotationTest {
 
     @Test
     public void maxLengthSuccessful(){
-
-        ValidationTasks.User user = instance.buildUser();
-//        assertTrue(instance.validate(user));
-        assertFalse(instance.validate(user));
+        assertTrue(instance.validate(instance.buildUserAddressDetails()));
+        assertFalse(instance.validate(instance.buildUserGeneralDetails()));
+        assertTrue(instance.validate(instance.buildUser()));
     }
 }
