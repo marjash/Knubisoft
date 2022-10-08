@@ -4,20 +4,6 @@ import java.util.Arrays;
 
 public class ArraysTasksImpl implements ArraysTasks {
 
-    public static void main(String[] args) {
-        ArraysTasksImpl tasks = new ArraysTasksImpl();
-//        System.out.println(Arrays.toString(tasks.reverse(new int[]{1, 2, 3, 4, 5})));
-//        System.out.println(Arrays.toString(tasks.mergeArrays(new int[0], new int[]{27, 11})));
-//        System.out.println(Arrays.toString(tasks.findMax3InArray(new int[]{234, 4})));
-//        System.out.println(tasks.findLongestIncreasingContinuesSubsequence(new int[]{Integer.MAX_VALUE, Integer.MIN_VALUE}));
-//        System.out.println(tasks.sumOfAllUniqueElements(new int[]{7,7,7,7}));
-//        System.out.println(Arrays.toString(tasks.moveZeroes(new int[]{345,0,12,12,0,78,0})));
-//        System.out.println(tasks.findFinalValue(new int[]{2,7,9}, 4));
-//        System.out.println(tasks.longestCommonPrefix(new String[]{"apple", "ap", "app"}));
-//        System.out.println(tasks.missingNumber(new int[]{0,1,3}));
-//        System.out.println(tasks.containsDuplicate(new int[]{10,2,1,45,67,32,11,109,209,2,1,10}));
-    }
-
     @Override
     public int[] reverse(int[] array) {
         int[] revArray = new int[array.length];
@@ -41,16 +27,11 @@ public class ArraysTasksImpl implements ArraysTasks {
             }
         }
         else if (array1.length == 0){
-            for (int j = 0; j < array2.length; j++) {
-                array3[j] = array2[j];
-            }
+            System.arraycopy(array2, 0, array3, 0, array2.length);
         }
         else{
-            for (int j = 0; j < array1.length; j++) {
-                array3[j] = array1[j];
-            }
+            System.arraycopy(array1, 0, array3, 0, array1.length);
         }
-
         return array3;
     }
 
@@ -169,9 +150,8 @@ public class ArraysTasksImpl implements ArraysTasks {
                     b = true;
                     k = j;
                 }
-                else {
+                else
                     return s;
-                }
             }
             if (b) {
                 b = false;

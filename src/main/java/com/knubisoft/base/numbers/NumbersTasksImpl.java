@@ -8,11 +8,6 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class NumbersTasksImpl implements NumbersTasks {
-    public static void main(String[] args) {
-
-//        System.out.println(numbersTasks);
-//        numbersTasks.swapTwoNumbersWithoutUsingTemporaryVariable(2, 3);
-    }
 
     @Override
     public void swapTwoNumbersWithoutUsingTemporaryVariable(int firstNumber, int secondNumber) {
@@ -139,13 +134,10 @@ public class NumbersTasksImpl implements NumbersTasks {
     public boolean isAutomorphic(int number) {
         long num = (long) number * number;
         String str = String.valueOf(number);
-//        char[] ch = str.toCharArray();
         String str2 = String.valueOf(num);
-//        char[] ch2 = str2.toCharArray();
         boolean b = false;
         int count = 0;
         for (int i = str.length() - 1; i >= 0; i--) {
-//            System.out.println("num " + str2.charAt(i) + " number " + str.charAt(str.length() - 1 - count));
             if (str.charAt(i) == str2.charAt(str2.length() - 1 - count)){
                 b = true;
                 count++;
@@ -155,5 +147,4 @@ public class NumbersTasksImpl implements NumbersTasks {
         }
         return b;
     }
-
 }

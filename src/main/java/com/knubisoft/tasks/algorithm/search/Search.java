@@ -1,5 +1,7 @@
 package com.knubisoft.tasks.algorithm.search;
 
+import java.util.Arrays;
+
 public interface Search {
 
     /**
@@ -10,5 +12,4 @@ public interface Search {
      * @return -1 if not found, otherwise position of element
      */
     int binarySearch(long[] array, long v);
-
 }

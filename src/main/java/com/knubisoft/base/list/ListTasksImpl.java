@@ -141,13 +141,11 @@ public class ListTasksImpl implements ListTasks {
             iterator.remove();
         }
     }
-//        list.removeIf(Objects::isNull);
     return list;
     }
 
     @Override
     public List<Integer> flatMapWithoutNulls(List<List<Integer>> list) {
-//        list.removeIf(Objects::isNull);
         if (list == null) {
             throw new NoSuchElementException("NoSuchElementException");
         }

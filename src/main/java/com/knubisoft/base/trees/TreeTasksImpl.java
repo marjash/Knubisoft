@@ -11,7 +11,6 @@ public class TreeTasksImpl implements TreeTasks {
         return node1.equals(node2);
     }
 
-
     @Override
     public List<Integer> inorderTraversal(TreeNode node) {
         List<Integer> arr = new ArrayList<>();
